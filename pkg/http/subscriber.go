@@ -40,8 +40,14 @@ func DefaultUnmarshalMessageFunc(topic string, req *http.Request) (*message.Mess
 	return msg, nil
 }
 
+type Router interface {
+	http.Handler
+	Post(pattern string, h http.HandlerFunc)
+}
 type SubscriberConfig struct {
-	Router               chi.Router
+	//replaced with own defined router interface so we can put gin router here
+	//Router               chi.Router
+	Router               Router
 	UnmarshalMessageFunc UnmarshalMessageFunc
 }
 
